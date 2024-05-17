@@ -1,0 +1,11 @@
+
+Cho phép người dùng config rạp chiếu phim: số hàng, cột, số ghế trống
+cho phép người dùng đặt ghế xem phim
+không sử dụng database(có thể lưu bằng file nhị phân hoặc text => tự tổ chức + không quan trọng/không cần bảo mật)
+có thể sử dụng UDP hoặc TCP
+có ứng dụng client(có giao diện)/có server(có giao diện để thực hiện cấu hình rạp phim) để nhận đặt vé của người dùng
+hỗ trợ nhiều client đặt ghế cùng 1 lúc
+đặt trong 1 ngày, và ngày có thể có nhiều xuất chiếu
+deadline: 9/6/2024
+
+=> bài tập lấy điểm thực hành cuối kỳ
