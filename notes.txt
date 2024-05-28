@@ -9,3 +9,21 @@ hỗ trợ nhiều client đặt ghế cùng 1 lúc
 deadline: 9/6/2024
 
 => bài tập lấy điểm thực hành cuối kỳ
+
+
+??? 1 phim hay nhiều phim
+Các chức năng trên web server 
+- chọn/cấu hình các suất chiếu trong ngày			=> GIAO DIỆN
+- cấu hình cho một rạp chiếu phim ( chọn số hàng, số ghế trên hàng, phân khu???, giá tiền cho từng khu)	=> GIAO DIỆN => chỉ thực hiện khi chưa có ai đặt vé trong rạp đó
+- lưu danh sách chổ ngồi thế nào, update tình trạng đặt chổ của một ghế thế nào 
+Các chức năng trên client server 				=> LOGIC 
+- xử lý request người dùng đến server lấy thông tin		=> LOGIC 
+
+Các chức năng trên client server 
+- Màn hình xem các suất chiếu trong ngày 		=> GIAO DIỆN
+- Xem thông tin chổ ngồi còn trống của một suất chiếu	=> GIAO DIỆN
+- đặt vé xem phim cho suất chiếu/chổ ngồi		=> GIAO DIỆN
+- kết nối tới server để request dữ liệu 		=> LOGIC (kết nối ngay khi mở ứng dụng lên)
+
+
+

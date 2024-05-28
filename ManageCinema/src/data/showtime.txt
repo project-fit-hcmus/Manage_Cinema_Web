@@ -1,0 +1,20 @@
+{
+XUAT01,
+AVATAR The Way of Water 2022,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Avatar.png,
+7.8,
+180,
+7:00,
+10:30,
+RAP01
+}
+{
+XUAT02,
+Spider-Man: No Way Home 2021,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Spiderman.png,
+8.2,
+150,
+18:00,
+20:30,
+RAP02
+}
