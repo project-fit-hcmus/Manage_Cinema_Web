@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 import data.*;
-import java.util.*;
 
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -20,6 +19,7 @@ public class clientLayout extends JFrame{
     private java.util.List<auditorium> listAuditorium;
     private java.util.List<Showtime> listShowtime;
     private java.util.List<Booking> listBookings;
+    private String choosen;
     
     private String dir;
     private JFrame mainFrame;
@@ -30,6 +30,9 @@ public class clientLayout extends JFrame{
     private Dimension headerDimen = new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 145);
     private Dimension contentDimen = new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
             (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+    private Dimension contentMaxDimen = new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+            (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+    
     private Dimension aHalfContent = new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2,
             (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() + 200);
     private Dimension contentpart1 = new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 2 / 5,
@@ -61,12 +64,15 @@ public class clientLayout extends JFrame{
     private final int CHAIR_WIDHT = 75;
     private final int CHAR_HEIGHT = 50;
     
-    public clientLayout(){
+    public clientLayout(java.util.List<Showtime> input){
         dir = System.getProperty("user.dir");
+        this.listShowtime = input;
         initComponents();
     }
+
     
     public void initComponents(){
+        System.out.println("Start init components");
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame = this;
@@ -87,30 +93,35 @@ public class clientLayout extends JFrame{
         contentPanel.add("homeScreen", createHomeScreen());
         contentPanel.add("bookingScreen", createBookingScreen());
         contentPanel.add("successScreen", createSuccessScreen());
-        // contentPanel = createHomeScreen();
 
-        JScrollPane scrollContent = new JScrollPane(contentPanel);
-        scrollContent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollContent.setBackground(bgColor);
-        scrollContent.getVerticalScrollBar().setUnitIncrement(16);
-        scrollContent.getVerticalScrollBar().setBlockIncrement(64);
+//        JScrollPane scrollContent = new JScrollPane(contentPanel);
+//        scrollContent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+//        scrollContent.setBackground(bgColor);
+//        scrollContent.getVerticalScrollBar().setUnitIncrement(16);
+//        scrollContent.getVerticalScrollBar().setBlockIncrement(64);
 
         // add element to main frame
         mainFrame.add(headerPanel);
-        mainFrame.add(scrollContent);
+//        mainFrame.add(scrollContent);
+        mainFrame.add(contentPanel);
+        setVisible(true);
     }
     
-    public JPanel createPosterFilm(){
+    public JPanel createPosterFilm(Showtime data){
         JPanel output = new JPanel();
         output.setLayout(new BoxLayout(output, BoxLayout.Y_AXIS));
         output.setBackground(transparentColor);
+        output.setPreferredSize(new Dimension(350,420));
+        output.setMinimumSize(new Dimension(350,420));
+        output.setMaximumSize(new Dimension(350,420));
+
 
         JLabel filmArea = new JLabel();
-        ImageIcon filmImg = setScale(222, 312, new ImageIcon(getClass().getResource("../media/film_image.png")));
+        ImageIcon filmImg = setScale(222, 312, new ImageIcon(data.getCoverImg()));
         filmArea.setIcon(filmImg);
 
         JLabel titleArea = new JLabel();
-        titleArea.setText("Avatar The Way of Water 2022");
+        titleArea.setText(data.getName());
         titleArea.setForeground(White);
         titleArea.setFont(title16);
 
@@ -125,9 +136,15 @@ public class clientLayout extends JFrame{
         durationArea.setIconTextGap(10);
 
         ratingArea.setIcon(ratingImg);
-        ratingArea.setText("7.8/10");
+        ratingArea.setText(data.getRating().toString() + "/10");
         durationArea.setIcon(durationImg);
-        durationArea.setText("3h 20m");
+        String duration ;
+        if(data.getDuration() < 60){
+            duration = String.valueOf(data.getDuration()) + "m";
+        }else{
+            duration = String.valueOf(data.getDuration()/60) + "h " + String.valueOf(data.getDuration()%60) + "m" ;
+        }
+        durationArea.setText(duration);
         JPanel wholeArea = new JPanel();
         wholeArea.setLayout(new FlowLayout(FlowLayout.CENTER));
         wholeArea.setPreferredSize(singlefilmDimen);
@@ -137,7 +154,7 @@ public class clientLayout extends JFrame{
         wholeArea.add(durationArea);
 
         JButton btnchoose = new JButton();
-        btnchoose.setText("7h30 - 10h");
+        btnchoose.setText(data.getStartTime() + " - " + data.getEndTime());
         btnchoose.setPreferredSize(singlefilmDimen);
         btnchoose.setMinimumSize(singlefilmDimen);
         btnchoose.setMaximumSize(singlefilmDimen);
@@ -149,13 +166,17 @@ public class clientLayout extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 card.show(contentPanel, "bookingScreen");
+                choosen = btnchoose.getText();
+                
             }
         });
 
         output.add(filmArea);
         output.add(wholeArea);
         output.add(titleArea);
+        output.add(Box.createRigidArea(new Dimension(0,10)));
         output.add(btnchoose);
+        output.add(Box.createRigidArea(new Dimension(0,40)));
 
         return output;
     }
@@ -189,23 +210,32 @@ public class clientLayout extends JFrame{
         return header;
     }
     
-    public JPanel createHomeScreen() {
+    public JScrollPane createHomeScreen() {
         JPanel content = new JPanel();
         content.setLayout(new FlowLayout(FlowLayout.LEFT));
-        content.setPreferredSize(contentDimen);
+        int temp = (int)(this.listShowtime.size()/4);
+        if(this.listShowtime.size()%4 != 0 )
+            temp ++;
+        content.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+            (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2)*(temp+1)));       // => ảnh hưởng tới các trang khác
+
         content.setBackground(bgColor);
-        content.add(createPosterFilm());
-        content.add(createPosterFilm());
-        content.add(createPosterFilm());
-        content.add(createPosterFilm());
-        content.add(createPosterFilm());
-        content.add(createPosterFilm());
-        content.add(createPosterFilm());
-        content.add(createPosterFilm());
-        return content;
+        for(int i = 0; i < this.listShowtime.size(); ++i){
+            content.add(createPosterFilm(this.listShowtime.get(i)));
+        }
+        
+                JScrollPane scrollContent = new JScrollPane(content);
+        scrollContent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollContent.setBackground(bgColor);
+        scrollContent.getVerticalScrollBar().setUnitIncrement(16);
+        scrollContent.getVerticalScrollBar().setBlockIncrement(64);
+        
+//        return content;
+        return scrollContent;
     }
     
     public JPanel posterForBooking(){
+        
         JPanel output = new JPanel();
         output.setBackground(bgColor);
         output.setPreferredSize(contentpart1);
@@ -277,6 +307,7 @@ public class clientLayout extends JFrame{
         output.setMinimumSize(contentpart2);
         output.setMaximumSize(contentpart2);
         output.setBackground(bgColor);
+//        output.setBackground(Color.RED);
         JLabel title = new JLabel();
         title.setPreferredSize(bookingElement);
         title.setMinimumSize(bookingElement);
@@ -403,17 +434,24 @@ public class clientLayout extends JFrame{
         return output;
     }
     
-    public JPanel createBookingScreen(){
+    public JScrollPane createBookingScreen(){
         JPanel booking = new JPanel();
+    
         booking.setLayout(new BoxLayout(booking, BoxLayout.X_AXIS));
-        booking.setPreferredSize(contentDimen);
+        booking.setPreferredSize(new Dimension(500,1250));
         booking.setBackground(bgColor);
         // thêm poster
         booking.add(posterForBooking());
         booking.add(createBookingArea());
+        
+             JScrollPane scrollContent = new JScrollPane(booking);
+        scrollContent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollContent.setBackground(bgColor);
+        scrollContent.getVerticalScrollBar().setUnitIncrement(16);
+        scrollContent.getVerticalScrollBar().setBlockIncrement(64);
 
-        // thêm nội dung booking
-        return booking;
+//        
+        return scrollContent;
     }
     
     //color maybe "red","gray","blue","pink"
@@ -557,8 +595,9 @@ public class clientLayout extends JFrame{
     public java.util.List<Showtime> getShowtime(){ return this.listShowtime;}
     public java.util.List<Booking> getBooking(){return this.listBookings;}
     
-    public static void main(String[] args){
-        clientLayout gui = new clientLayout();
-        gui.setVisible(true);
-    }
+    
+//    public static void main(String[] args){
+//        clientLayout gui = new clientLayout();
+//        gui.setVisible(true);
+//    }
 }

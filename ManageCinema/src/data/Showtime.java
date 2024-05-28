@@ -21,7 +21,15 @@ public class Showtime {
     private String auditoriumId;
     
     public String getShowtimeId(){return this.id;}
+    public String getName(){return this.name;}
+    public String getCoverImg(){return this.coverImg;}
+    public Double getRating(){return this.rating;}
+    public int getDuration() { return this.duration;}
+    public String getStartTime(){return this.start;}
+    public String getEndTime(){return this.end;}
     public String getAuditoriumId(){return this.auditoriumId;}
+    
+    
 
     public void readInfo(String input) {
         int pos = input.indexOf(",");

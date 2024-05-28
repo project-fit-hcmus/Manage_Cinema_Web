@@ -21,7 +21,7 @@ public class Client {
     private DataInputStream input;
     
     public Client(){
-        try{
+        try{  
             Socket client = new Socket(serverName,PORT);
             if(client.isConnected()){
                 System.out.println("Connected to server with address " + client.getRemoteSocketAddress());
@@ -36,10 +36,9 @@ public class Client {
                 handleData data = new handleData();
                 List<Showtime> output = data.readShowtimeFile(resp);
                 
-                layout.setShowtime(output);                
-                layout = new clientLayout();
-                layout.setVisible(true);
+                layout = new clientLayout(output);
                 System.out.println("Number of data response: " + output.size());
+                layout.setVisible(true);
        
             }
         }catch(IOException e){

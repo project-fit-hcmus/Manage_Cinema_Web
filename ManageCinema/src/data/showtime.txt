@@ -3,13 +3,43 @@ XUAT01,
 AVATAR The Way of Water 2022,
 D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Avatar.png,
 7.8,
-180,
+192,
 7:00,
 10:30,
 RAP01
 }
 {
 XUAT02,
+Killers Of The Flower Moon 2023,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Killer.png,
+8,
+206,
+10:30,
+14:00,
+RAP02
+}
+{
+XUAT03,
+Tick Tick ... Boom! 2021,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Boom.png,
+7.6,
+115,
+14:00,
+16:00,
+RAP01
+}
+{
+XUAT04,
+AVATAR The Way of Water 2022,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Avatar.png,
+7.8,
+192,
+16:00,
+19:30,
+RAP01
+}
+{
+XUAT05,
 Spider-Man: No Way Home 2021,
 D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Spiderman.png,
 8.2,
@@ -18,3 +48,35 @@ D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Spi
 20:30,
 RAP02
 }
+{
+XUAT06,
+Attack on Titan,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Titan.png,
+9.1,
+24,
+20:30,
+21:00,
+RAP01
+}
+{
+XUAT07,
+Avengers: Endgame 2019,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Avengers.png,
+8.4,
+90,
+21:00,
+22:30,
+RAP02,
+}
+{
+XUAT08,
+What If...?,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_WhatIf.png,
+7.4,
+34,
+22:30,
+23:00,
+RAP02,
+}
+
+

@@ -90,7 +90,7 @@ public class Server {
                     mess = input.readUTF();
                     System.out.print(clientSocket.getLocalSocketAddress() + " : " + mess);
                     if(mess.equals("GET/ListShowtime")){
-                        resp = dir + "/src/data/showtime.txt";
+                        resp = dir + "\\src\\data\\showtime.txt";
                     }
                     // response client
                     output.writeUTF(resp);
