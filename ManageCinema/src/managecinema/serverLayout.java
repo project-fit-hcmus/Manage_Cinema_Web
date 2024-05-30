@@ -8,8 +8,6 @@ package managecinema;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.DigestException;
-
 public class serverLayout extends JFrame {
 
     private String[] listAudi = { "RAP01", "RAP02" };
@@ -173,7 +171,7 @@ public class serverLayout extends JFrame {
         txtRow.setForeground(lightGray);
         txtRow.setBackground(bgLighGray);
 
-        JTextField txtCol = new JTextField("Số lượng hàng");
+        JTextField txtCol = new JTextField("Số lượng cột");
         txtCol.setFont(title18);
         txtCol.setForeground(lightGray);
         txtCol.setBackground(bgLighGray);

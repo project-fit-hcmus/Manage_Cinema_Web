@@ -87,6 +87,72 @@ public class handleData {
         return output;
     }
     
+    public void updateAuditoriumFile(String filename, List<auditorium> data){
+        System.out.println("Enter update auditorium file!!!");
+        //mở file 
+        try{
+            BufferedWriter br = new BufferedWriter(new FileWriter(filename));
+            for(int i = 0; i < data.size(); ++i){
+                br.write("{\n");
+                br.write(data.get(i).getID() + ",\n");
+                br.write(data.get(i).getRow() + ",\n");
+                br.write(data.get(i).getCol() + ",\n");
+                br.write("[" + data.get(i).getVIP().getName() + "|" + data.get(i).getVIP().getStart() + "|");
+                br.write(data.get(i).getVIP().getEnd() + "|" + data.get(i).getVIP().getPrice() + "],\n");
+                br.write("[" + data.get(i).getCouple().getName() + "|" + data.get(i).getCouple().getStart() + "|");
+                br.write(data.get(i).getCouple().getEnd() + "|" + data.get(i).getCouple().getPrice() + "],\n");
+                br.write("}\n");
+                System.out.println(i);
+            }
+            br.close();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
+    public void updateShowtimeFile(String filename, List<Showtime> data){
+        //mở file 
+        try{
+            BufferedWriter br = new BufferedWriter(new FileWriter(filename));
+            for(int i = 0; i < data.size(); ++i){
+                br.write("{\n" + data.get(i).getShowtimeId() + ",\n");
+                br.write(data.get(i).getName() + ",\n");
+                br.write(data.get(i).getCoverImg() + ",\n");
+                br.write(data.get(i).getRating()+ ",\n");
+                br.write(data.get(i).getDuration()+ ",\n");
+                br.write(data.get(i).getStartTime()+ ",\n");
+                br.write(data.get(i).getEndTime()+ ",\n");
+                br.write(data.get(i).getAuditoriumId()+ "}\n");
+            }
+            br.close();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
+    public void updateBookingFile(String filename, List<Booking> data){
+        //mở file 
+        try{
+            BufferedWriter br = new BufferedWriter(new FileWriter(filename));
+            for(int i = 0; i < data.size() ; ++i){
+                boolean first = true;
+                br.write("{\n" + data.get(i).getAuditoriumId() + ",\n");
+                br.write(data.get(i).getShowtimeId() + ",\n[");
+                for(int j = 0; j < data.get(i).getReserved().length; ++j){
+                    if(j != 0) br.write(",");
+                    br.write(data.get(i).getReserved()[j]);
+                    
+                }
+                  
+                    
+                br.write("]\n}\n");
+            }
+            br.close();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
     
     public static void main(String args[]) {
         List<auditorium> output;

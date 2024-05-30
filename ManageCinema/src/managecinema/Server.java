@@ -3,11 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package managecinema;
-import data.*;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.*;
-import java.util.*;
 /**
  *
  * @author User
@@ -26,26 +24,15 @@ public class Server {
     }
     
     public void start(){
-        System.out.println("Server started. Waiting for client connect ... ");
-        // prepare data 
-        handleData data = new handleData();
-        List<auditorium> listAuditorium;
-        List<Showtime> listShowtime;
-        List<Booking> listBooking;
-        listAuditorium = data.readAuditoriumFile(dir + "/src/data/auditorium.txt");
-        listShowtime = data.readShowtimeFile(dir + "/src/data/showtime.txt");
-        listBooking = data.readBookingStatus(dir + "/src/data/booking.txt");
-        System.out.println("number of auditorium:" + listAuditorium.size());
-        System.out.println("number of showtime: " + listShowtime.size());
-        System.out.println("number of booking: " + listBooking.size());        
-        // display layour server
+        System.out.println("Server started. Waiting for client connect ... ");       
+        // DISPLAY LAYOUT SERVER
         layout = new serverLayout();
         layout.setVisible(true);
         try{
             while(true){
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress());
-                // tạo luồng xử lý cho từng client 
+                //TẠO LUỒNG XỬ LÝ CHO TỪNG CLIENT 
                 ClientHandle clientHandle = new ClientHandle(clientSocket);
                 clientHandle.start();
                 
@@ -72,6 +59,8 @@ public class Server {
         private Socket clientSocket;
         private DataInputStream input;
         private DataOutputStream output;
+        private ManageCinema manage = new ManageCinema();
+        private handleData handle = new handleData();
 
         public ClientHandle(Socket clientSocket) {
             this.clientSocket = clientSocket;
@@ -79,21 +68,41 @@ public class Server {
         @Override
         public void run(){
             try{
-                // khởi tạo đối tương nhận dữ liệu tử client 
+                // KHỞI TẠO ĐỐI TƯỢNG NHẬN DỮ LIỆU TỪ CLIENT
                 input = new DataInputStream(clientSocket.getInputStream());
-                // khởi tạo đối tượng trả dữ liệu cho client 
+                // KHỞI TẠO ĐỐI TƯỢNG TRẢ DỮ LIỆU CHO CLIENT
                 output = new DataOutputStream(clientSocket.getOutputStream());
                 String mess = "";
                 String resp = "";
                 while(true){
-                    //get message from client 
+                    //NHẬN THÔNG TIN TỪ CLIENT
                     mess = input.readUTF();
-                    System.out.print(clientSocket.getLocalSocketAddress() + " : " + mess);
-                    if(mess.equals("GET/ListShowtime")){
-                        resp = dir + "\\src\\data\\showtime.txt";
+                    System.out.println(clientSocket.getLocalSocketAddress() + " : " + mess);
+                    if(mess.contains("GET")){
+                        if(mess.contains("ListShowtime")){
+                            resp = dir + "\\src\\data\\showtime.txt";
+                        }
+                        if(mess.contains("ListBooking")){
+                            resp = dir +  "\\src\\data\\booking.txt|";
+                            resp += dir + "\\src\\data\\auditorium.txt";
+                        }
+                        if(mess.contains("ListAuditorium")){
+                            resp = dir + "\\src\\data\\auditorium.txt";
+                        }
+                    }else
+                    if(mess.contains("RESERVED")){
+                        String result = manage.solveBooking(mess);
+                        if(result.contains("true")){
+                            resp = "SUCCESS";
+                        }
+                        else {
+                            resp = "FAILED" + result;
+                        }
                     }
-                    // response client
+                    
+                    // PHẢN HỒI LẠI CHO CLIENT
                     output.writeUTF(resp);
+                    System.err.println("response: " + resp);
                 }
             }catch(IOException e){
                 e.printStackTrace();
@@ -110,8 +119,6 @@ public class Server {
         }
     }
     
-    
-    
     public static void main(String args[]){
         try{
             Server server = new Server(PORT);
@@ -120,9 +127,4 @@ public class Server {
             e.printStackTrace();
         }
     }
-    
-    
-    
-    
-    
 }

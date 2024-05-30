@@ -18,29 +18,23 @@ package data;
 public class Booking {
     private String auditoriumId;
     private String showtimeId;
-    private int row = 11;
-    private int col = 11;
-    private boolean reserved[][];
-    
-    public void setRow(int row){
-        this.row = row;
-    }
-    public void setCol(int col){
-        this.col = col;
-    }
+    private String[] reserved ;
+    //true: is taken | false: is empty
+   
     public void setAuditoriumId(String inp){
         this.auditoriumId = inp;
     }
     public void setShowtimeId(String inp){
         this.showtimeId = inp;
     }
+    
     public String getShowtimeId(){return this.showtimeId;}
     public String getAuditoriumId(){return this.auditoriumId;}
-    public int getRow(){return row;}
-    public int getCol(){return col;}
     
+    public String[] getReserved(){return this.reserved;}
+    public void setReserved(String[] value){this.reserved = value;}
     public void ReadInfo(String input){
-        reserved = new boolean[row][col];
+        
         int pos = input.indexOf(',');
         auditoriumId = input.substring(2,pos);
         input = input.substring(pos+2);
@@ -51,7 +45,8 @@ public class Booking {
 
         pos = input.indexOf('}');
         input = input.substring(0,pos);
-        reserved = readMatrix(input,row, col);
+        
+        reserved = readMatrix(input);
         
         
         
@@ -60,50 +55,51 @@ public class Booking {
     public void PrintInfo(){
         System.out.println("Auditorium: " + auditoriumId + "\n");
         System.out.println("Showtime: " + showtimeId + "\n");
-        System.out.println("[" + row + ", " + col + "]" + "\n");
         System.out.println("Status: \n");
-        for(int i = 0; i < row; ++i){
-            for(int j = 0; j < col; ++j){
-                String temp = reserved[i][j] == true ? "reseved":"empty";
-                System.out.print(temp + "  ");
-            }
-            System.out.println("\n");
+        for(int i = 0; i < this.reserved.length ; ++i){
+            System.out.print(this.reserved[i] + " ");
         }
     }
     
     //input like: [B2,B3,C9,D1,D2,D3,D4]
-    public boolean[][] readMatrix(String input, int row, int col){
-        boolean[][] output = new boolean[row][col];
-        for(int i = 0; i < row; ++i)
-            for(int j = 0; j < col; ++j)
-                output[i][j] = false;
-        int pos = input.indexOf('[');
-        input = input.substring(pos+1);     // bỏ qua ký tự "["
-        pos = input.indexOf(',');
-        while(!input.isEmpty()){
-            String temp ;
-            if(pos == -1 ){
-                pos = input.indexOf(']');
-                temp = input.substring(0,pos);
-                
-            }else{
-                temp= input.substring(0,pos);                
-            }
-            output[(temp.charAt(0)-65)][temp.charAt(1)-48-1] = true;          // temp[1] - 48 - 1 vì cột bắt đầu từ vị trí 0
-            input = input.substring(pos+1);
-            if(!(input.charAt(0) >= 'A' && input.charAt(0) <= 'Z')) break;
+    public String[] readMatrix(String input){
+        if(input.charAt(1) == ']') {
+            return new String[0];
         }
+        int count = 1;
+        for(int i =0; i < input.length(); ++i)
+            if(input.charAt(i) == ',')
+                ++count;
+        String[] output = new String[count]; 
+        int pos = input.indexOf(",");
+        int i = 0;
+        if(pos == -1){
+            output[0] = input.substring(input.indexOf("[")+1,input.indexOf("]"));
+        }else{
+            input = input.substring(1,input.length());
+            pos = input.indexOf(",");
+            while(pos != -1){
+                output[i] = input.substring(0,pos);
+                input = input.substring(pos+1);
+                ++i;
+                pos = input.indexOf(",");
+            }
+            pos = input.indexOf("]");
+            output[i] = input.substring(0,pos);
+                    
+        }
+        
+
         return output;
     }
     
     public static void main(String args[]){
         Booking b = new Booking();
-        b.setRow(11);
-        b.setCol(11);
+        
         String input = "{\n" +
-"    RAP02,\n" +
-"    XUAT02,\n" +
-"    [A5]\n" +
+"RAP01,\n" +
+"XUAT01,\n" +
+"[]\n" +
 "}";
         b.ReadInfo(input);
         b.PrintInfo();

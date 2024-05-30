@@ -60,7 +60,8 @@ public class Showtime {
         end = input.substring(0, pos);
         input = input.substring(pos + 2);
         
-        auditoriumId = input.substring(0, input.length() - 2);
+        pos = input.indexOf(",");
+        auditoriumId = input.substring(0, pos);
     }
 
     public void printInfo() {

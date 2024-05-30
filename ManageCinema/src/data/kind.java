@@ -40,4 +40,14 @@ public class kind {
         System.out.println("End at: " + end);
         System.out.println("Price: " + price);
     }
+    
+    public String getName(){return this.name;}
+    public String getStart(){return this.start;}
+    public String getEnd(){return this.end;}
+    public long getPrice(){return this.price;}
+    
+    public void setName(String value){this.name = value;}
+    public void setStart(String value){this.start = value;}
+    public void setEnd(String value){this.end = value;}
+    public void setPrice(long value){this.price = value;}
 }

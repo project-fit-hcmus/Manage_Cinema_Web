@@ -56,6 +56,19 @@ public class auditorium {
         couple.PrintInfo();
 
     }
+    
+    public String getID(){return this.id;}
+    public int getRow(){return this.row;}
+    public int getCol(){return this.col;}
+    public kind getVIP(){return this.vip;}
+    public kind getCouple(){return this.couple;}
+    
+    public void setID(String value){this.id = value;}
+    public void setRow(int value){this.row = value;}
+    public void setCol(int value){this.col = value;}
+    public void setVIP(kind value){this.vip = value;}
+    public void setCouple(kind value){this.couple = value;}
+    
     public static void main(String args[]){
         auditorium t = new auditorium();
         String inp = "{\r\n" + //
