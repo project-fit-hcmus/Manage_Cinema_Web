@@ -35,8 +35,9 @@ public class handleData {
                 line = br.readLine();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getMessage());
+//            return output;
         }
         return output;
     }
@@ -48,18 +49,21 @@ public class handleData {
             String line = br.readLine();
             String show = "";
             while(line != null && !line.isEmpty()){
+                System.err.println(line);
                 show += line + '\n';
                 if(line.charAt(0) == '}'){
                     Showtime single = new Showtime();
                     single.readInfo(show);
+                    single.printInfo();
                     output.add(single);
                     show = "";
                 }
                 line = br.readLine();
             }
         }catch(Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getMessage());
+//            return output;
         }
         return output;
     }
@@ -81,8 +85,9 @@ public class handleData {
                 line = br.readLine();
             }
         }catch(Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getMessage());
+//            return output;
         }
         return output;
     }
@@ -106,7 +111,7 @@ public class handleData {
             }
             br.close();
         }catch(Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getMessage());
         }
     }
@@ -122,7 +127,7 @@ public class handleData {
                 br.write(data.get(i).getDuration()+ ",\n");
                 br.write(data.get(i).getStartTime()+ ",\n");
                 br.write(data.get(i).getEndTime()+ ",\n");
-                br.write(data.get(i).getAuditoriumId()+ "}\n");
+                br.write(data.get(i).getAuditoriumId()+ ",\n}\n");
             }
             br.close();
         }catch(Exception e){

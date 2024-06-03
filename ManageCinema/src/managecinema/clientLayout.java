@@ -682,6 +682,7 @@ public class clientLayout extends JFrame{
                 System.out.println("response message: " + resp);
                 handleData handle = new handleData();
                 java.util.List<Showtime> output = handle.readShowtimeFile(resp);
+                System.out.println("output size:" + output.size());
 
                 // show layout
                 showHomeScreen(output);

@@ -29,39 +29,58 @@ public class Showtime {
     public String getEndTime(){return this.end;}
     public String getAuditoriumId(){return this.auditoriumId;}
     
+    public void setId(String value){this.id = value;}
+    public void setName(String value){this.name = value;}
+    public void setCoverImg(String value){this.coverImg = value;}
+    public void setRating(Double value){this.rating = value;}
+    public void setDuration(int value) { this.duration = value;}
+    public void setStart(String value){this.start = value;}
+    public void setEnd(String value){this.end = value;}
+    public void setAuditoriumId(String value){this.auditoriumId = value;}
     
 
     public void readInfo(String input) {
         int pos = input.indexOf(",");
         id = input.substring(2, pos);
         input = input.substring(pos + 2);
+        System.out.println(id);
 
         pos = input.indexOf(",");
         name = input.substring(0, pos);
         input = input.substring(pos + 2);
+        System.out.println(name);
+
         
         pos = input.indexOf(",");
         coverImg = input.substring(0, pos);
         input = input.substring(pos + 2);
+        System.out.println(coverImg);
 
         pos = input.indexOf(",");
         rating = Double.parseDouble(input.substring(0, pos));
         input = input.substring(pos + 2);
+        System.out.println(rating);
+
 
         pos = input.indexOf(",");
         duration = Integer.parseInt(input.substring(0, pos));
         input = input.substring(pos + 2);
+        System.out.println(duration);
 
+        
         pos = input.indexOf(",");
         start = input.substring(0, pos);
         input = input.substring(pos + 2);
+        System.out.println(start);
 
         pos = input.indexOf(",");
         end = input.substring(0, pos);
         input = input.substring(pos + 2);
+        System.out.println(end);
         
         pos = input.indexOf(",");
         auditoriumId = input.substring(0, pos);
+        System.out.println(auditoriumId);
     }
 
     public void printInfo() {
@@ -77,13 +96,13 @@ public class Showtime {
     public static void main(String args[]){
         Showtime t = new Showtime();
         String input = "{\n" +
-"XUAT01,\n" +
+"WFZK07,\n" +
 "AVATAR The Way of Water 2022,\n" +
 "D:\\1. HCMUS\\JAVA\\Practices\\Manage_Cinema_Web\\ManageCinema\\src\\media\\coverImg_Avatar.png,\n" +
 "7.8,\n" +
-"180,\n" +
-"7:00,\n" +
-"10:30,\n" +
+"192,\n" +
+"7:0,\n" +
+"10:12,\n" +
 "RAP01\n" +
 "}";
         t.readInfo(input);
