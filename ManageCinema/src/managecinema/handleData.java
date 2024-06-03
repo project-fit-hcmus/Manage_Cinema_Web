@@ -35,9 +35,7 @@ public class handleData {
                 line = br.readLine();
             }
         } catch (Exception e) {
-//            e.printStackTrace();
-            System.out.println(e.getMessage());
-//            return output;
+            System.err.println(e.getMessage());
         }
         return output;
     }
@@ -61,9 +59,7 @@ public class handleData {
                 line = br.readLine();
             }
         }catch(Exception e){
-//            e.printStackTrace();
-            System.out.println(e.getMessage());
-//            return output;
+            System.err.println(e.getMessage());
         }
         return output;
     }
@@ -85,15 +81,13 @@ public class handleData {
                 line = br.readLine();
             }
         }catch(Exception e){
-//            e.printStackTrace();
-            System.out.println(e.getMessage());
-//            return output;
+            System.err.println(e.getMessage());
         }
         return output;
     }
     
     public void updateAuditoriumFile(String filename, List<auditorium> data){
-        System.out.println("Enter update auditorium file!!!");
+        System.err.println("Enter update auditorium file!!!");
         //mở file 
         try{
             BufferedWriter br = new BufferedWriter(new FileWriter(filename));
@@ -107,12 +101,10 @@ public class handleData {
                 br.write("[" + data.get(i).getCouple().getName() + "|" + data.get(i).getCouple().getStart() + "|");
                 br.write(data.get(i).getCouple().getEnd() + "|" + data.get(i).getCouple().getPrice() + "],\n");
                 br.write("}\n");
-                System.out.println(i);
             }
             br.close();
         }catch(Exception e){
-//            e.printStackTrace();
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
     public void updateShowtimeFile(String filename, List<Showtime> data){
@@ -131,8 +123,8 @@ public class handleData {
             }
             br.close();
         }catch(Exception e){
-            e.printStackTrace();
-            System.out.println(e.getMessage());
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
     public void updateBookingFile(String filename, List<Booking> data){
@@ -154,39 +146,9 @@ public class handleData {
             }
             br.close();
         }catch(Exception e){
-            e.printStackTrace();
-            System.out.println(e.getMessage());
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
-    
-    public static void main(String args[]) {
-        List<auditorium> output;
-        List<Showtime> showList;
-        List<Booking> listReserved;
-        String dir = System.getProperty("user.dir");
 
-        int pos = dir.lastIndexOf('\\');
-        dir = dir.substring(0, pos);
-
-        handleData a = new handleData();
-//        output = a.readAuditoriumFile(dir + "\\ManageCinema\\src\\data\\auditorium.txt");
-//        for(int i = 0 ; i < output.size(); ++i){
-//            System.out.println("The data at " + i + " : ");
-//            output.get(i).printInfo();
-//            System.out.println("\n");
-//        }
-        
-//        showList = a.readShowtimeFile(dir + "\\ManageCinema\\src\\data\\showtime.txt");
-//        for(int i =0 ;i < showList.size(); ++i){
-//            System.out.println("The data at " + i + " : ");
-//            showList.get(i).printInfo();
-//            System.out.println("\n");
-//        }
-        listReserved = a.readBookingStatus(dir + "\\ManageCinema\\src\\data\\booking.txt");
-        for(int i = 0; i < listReserved.size() ; ++i){
-            System.out.println("The data at " + i + " : ");
-            listReserved.get(i).PrintInfo();
-            System.out.println("");
-        }
-    }
 }

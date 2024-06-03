@@ -29,7 +29,6 @@ public class supportFunc {
         int startJC = Integer.parseInt(couple.getStart().substring(1)) - 1;
         int endIC = couple.getEnd().charAt(0) - 65;
         int endJC = Integer.parseInt(couple.getEnd().substring(1)) - 1;
-        System.out.println("VIP Start [" + startIC + "," +startJC + "] --- VIP end [" + endIC + "," + endJC + "]"   );
         for(int i = 0; i < row; ++i)
             for(int j = 0; j < col; ++j){
                 if(startIV <= i  && i<= endIV && startJV <= j && j <= endJV)

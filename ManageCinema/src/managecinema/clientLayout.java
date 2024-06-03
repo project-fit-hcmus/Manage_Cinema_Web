@@ -500,8 +500,8 @@ public class clientLayout extends JFrame{
                         System.err.println(response);
 
                     }else {     // booking failed
-                        System.err.println("FAILED: " + response);
-                        System.out.println(response);
+                        System.err.println(response);
+                        JOptionPane.showMessageDialog(null,response,"Notification",JOptionPane.WARNING_MESSAGE);
                         bookingFrame.dispose();
                         mainFrame.setFocusable(true);
                     }
@@ -637,20 +637,20 @@ public class clientLayout extends JFrame{
             String request = "GET/ListBooking/" + idAuditorium;
             output.writeUTF(request);
             String link = input.readUTF();
-            System.out.println(link);
+//            System.out.println(link);
             int pos = link.indexOf("|");
             handleData handle = new handleData();
             listAudi = handle.readAuditoriumFile(link.substring(pos+1));
             listBooking = handle.readBookingStatus(link.substring(0,pos));
         }catch(Exception e){
-            e.printStackTrace();
-            System.out.println(e.getMessage());
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
         
         bookingFrame = new JFrame();
         bookingFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         bookingFrame.setBackground(bgColor);
-        bookingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        bookingFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         bookingFrame.getContentPane().setLayout(new BoxLayout(bookingFrame.getContentPane(),BoxLayout.PAGE_AXIS));
         bookingFrame.setLayout(new BoxLayout(bookingFrame.getContentPane(), BoxLayout.Y_AXIS));
         
@@ -682,7 +682,6 @@ public class clientLayout extends JFrame{
                 System.out.println("response message: " + resp);
                 handleData handle = new handleData();
                 java.util.List<Showtime> output = handle.readShowtimeFile(resp);
-                System.out.println("output size:" + output.size());
 
                 // show layout
                 showHomeScreen(output);

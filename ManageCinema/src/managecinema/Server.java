@@ -10,7 +10,6 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 /**
  *
  * @author User
@@ -364,9 +363,9 @@ public class Server extends JFrame{
                 if( returnVal == JFileChooser.APPROVE_OPTION){
                     java.io.File file = fileChooser.getSelectedFile();
                     btnAddImg.setText(file.getName());
-                    System.out.println("file choosen: " + file);
+//                    System.out.println("file choosen: " + file);
                     linkImg.setText(file.toString());
-                    System.out.println("file name: " + file.getName());
+//                    System.out.println("file name: " + file.getName());
                 }
                 else{
                     System.out.println("Action is canceled!!");
@@ -459,12 +458,12 @@ public class Server extends JFrame{
                 int pos = temp.indexOf(" ");
                 String auditoriumID = audiCombo.getSelectedItem().toString();
                 String time = temp.substring(0,pos) + ":" + minuteCombo.getSelectedItem().toString();
-                System.out.println("film name: " + filmTitle);
-                System.out.println("avatar URL: " + avatarUrl);
-                System.out.println("rating: " + rating);
-                System.out.println("duration: " + duration);
-                System.out.println("time: " + time);
-                System.out.println("auditorium: " + auditoriumID);
+//                System.out.println("film name: " + filmTitle);
+//                System.out.println("avatar URL: " + avatarUrl);
+//                System.out.println("rating: " + rating);
+//                System.out.println("duration: " + duration);
+//                System.out.println("time: " + time);
+//                System.out.println("auditorium: " + auditoriumID);
                 String result = manageServer.setupShowtime(filmTitle,avatarUrl,duration,rating,time,auditoriumID);
                 if(result.contains("true")){
                      JOptionPane.showMessageDialog(null, "Cấu hình xuất chiếu thành công!!!","Notification",JOptionPane.WARNING_MESSAGE);
@@ -649,7 +648,7 @@ public class Server extends JFrame{
                             resp = "SUCCESS";
                         }
                         else {
-                            resp = "FAILED" + result;
+                            resp = "FAILED: " + result;
                         }
                     }
                     

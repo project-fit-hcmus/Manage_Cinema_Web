@@ -49,6 +49,8 @@ public class ManageCinema {
 
         if(num != real)
             return "Vui long chon dung so ghe da chon";
+        if(num == 0)
+            return "Vui long chon so luong ghe de tien hanh dat!!!";
         
         //KIỂM TRA CÁC CHỔ CHỌN ĐẶT CÓ CÒN TRỐNG
         java.util.List<Booking> listBooking = handle.readBookingStatus(dir+"/src/data/booking.txt");
@@ -63,7 +65,7 @@ public class ManageCinema {
         }
         
         for(int i = 0; i < single.getReserved().length; ++i){
-            if(listBooking.contains(single.getReserved()[i]))
+            if(listPosition.contains(single.getReserved()[i]))
                 return "Cho da duoc dat tu truoc!!!";
         }
         
@@ -271,10 +273,7 @@ public class ManageCinema {
         return output;
     }
     
-    public static void main(String[] args){
-        System.out.println(PlusTime("8:45", 145));
-        
-    }
+    
  
 
 }

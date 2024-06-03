@@ -43,44 +43,36 @@ public class Showtime {
         int pos = input.indexOf(",");
         id = input.substring(2, pos);
         input = input.substring(pos + 2);
-        System.out.println(id);
 
         pos = input.indexOf(",");
         name = input.substring(0, pos);
         input = input.substring(pos + 2);
-        System.out.println(name);
 
         
         pos = input.indexOf(",");
         coverImg = input.substring(0, pos);
         input = input.substring(pos + 2);
-        System.out.println(coverImg);
 
         pos = input.indexOf(",");
         rating = Double.parseDouble(input.substring(0, pos));
         input = input.substring(pos + 2);
-        System.out.println(rating);
 
 
         pos = input.indexOf(",");
         duration = Integer.parseInt(input.substring(0, pos));
         input = input.substring(pos + 2);
-        System.out.println(duration);
 
         
         pos = input.indexOf(",");
         start = input.substring(0, pos);
         input = input.substring(pos + 2);
-        System.out.println(start);
 
         pos = input.indexOf(",");
         end = input.substring(0, pos);
         input = input.substring(pos + 2);
-        System.out.println(end);
         
         pos = input.indexOf(",");
         auditoriumId = input.substring(0, pos);
-        System.out.println(auditoriumId);
     }
 
     public void printInfo() {
