@@ -69,18 +69,5 @@ public class auditorium {
     public void setVIP(kind value){this.vip = value;}
     public void setCouple(kind value){this.couple = value;}
     
-    public static void main(String args[]){
-        auditorium t = new auditorium();
-        String inp = "{\r\n" + //
-                "RAP01,\r\n" + //
-                "10,\r\n" + //
-                "20,\r\n" + //
-                "[VIP|D5|H16|60000],\r\n" + //
-                "[COUPLE|K1|K20|15000],\r\n" + //
-                "}";
-        System.out.println(inp);
-        System.out.println(inp.length());
-        t.readInfo(inp);
-        t.printInfo();
-    }
+
 }

@@ -40,8 +40,6 @@ public class Server extends JFrame{
     private ServerSocket serverSocket;
     private static final int PORT = 8080;
     private String dir = "";
-    private serverLayout layout;
-    private String[] listAudi = { "RAP01", "RAP02" };
     private ManageCinema manageServer = new ManageCinema();
     private handleData handleServer = new handleData();
     
@@ -66,12 +64,6 @@ public class Server extends JFrame{
         
         JTextField audiCombo = new JTextField("Chọn rạp muốn cấu hình");
         
-        
-//        DefaultComboBoxModel model = new DefaultComboBoxModel();
-//        for (int i = 0; i < this.listAudi.length; ++i)
-//            model.addElement(this.listAudi[i]);
-//        JComboBox audiCombo = new JComboBox(model);
-//        audiCombo.setSelectedItem(0);
         audiCombo.setBackground(bgLighGray);
         audiCombo.setFont(title18);
         audiCombo.setForeground(lightGray);
@@ -348,7 +340,7 @@ public class Server extends JFrame{
 
         
         JButton btnAddImg = new JButton();
-        ImageIcon icon = setScale(40, 30, new ImageIcon(getClass().getResource("../media/addImg.png")));
+        ImageIcon icon = setScale(40, 30, new ImageIcon(getClass().getResource("/media/addImg.png")));
         btnAddImg.setIcon(icon);
         btnAddImg.setText("Thêm hình ảnh");
         btnAddImg.setFont(title18);
@@ -426,7 +418,9 @@ public class Server extends JFrame{
         startTime.add(minuteCombo);
         
         //get list auditorium 
-        java.util.List<auditorium> raw = handleServer.readAuditoriumFile(dir + "/src/data/auditorium.txt");
+//        java.util.List<auditorium> raw = handleServer.readAuditoriumFile(dir + "/src/data/auditorium.txt");
+        java.util.List<auditorium> raw = handleServer.readAuditoriumFile(dir + "/auditorium.txt");
+
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         for(int i = 0; i < raw.size(); ++i)
             model.addElement(raw.get(i).getID());
@@ -458,12 +452,6 @@ public class Server extends JFrame{
                 int pos = temp.indexOf(" ");
                 String auditoriumID = audiCombo.getSelectedItem().toString();
                 String time = temp.substring(0,pos) + ":" + minuteCombo.getSelectedItem().toString();
-//                System.out.println("film name: " + filmTitle);
-//                System.out.println("avatar URL: " + avatarUrl);
-//                System.out.println("rating: " + rating);
-//                System.out.println("duration: " + duration);
-//                System.out.println("time: " + time);
-//                System.out.println("auditorium: " + auditoriumID);
                 String result = manageServer.setupShowtime(filmTitle,avatarUrl,duration,rating,time,auditoriumID);
                 if(result.contains("true")){
                      JOptionPane.showMessageDialog(null, "Cấu hình xuất chiếu thành công!!!","Notification",JOptionPane.WARNING_MESSAGE);
@@ -504,7 +492,7 @@ public class Server extends JFrame{
         output.setPreferredSize(headerDimen);
         output.setMinimumSize(headerDimen);
         output.setMaximumSize(headerDimen);
-        ImageIcon headerLogo = setScale(158, 88, new ImageIcon(getClass().getResource("../media/logo.png")));
+        ImageIcon headerLogo = setScale(158, 88, new ImageIcon(getClass().getResource("/media/logo.png")));
         JLabel headerLogoArea = new JLabel();
         headerLogoArea.setIcon(headerLogo);
         headerLogoArea.addMouseListener(new MouseAdapter() {
@@ -600,7 +588,6 @@ public class Server extends JFrame{
     public void stop(){
         try{
             serverSocket.close();
-            layout.setVisible(false);
             
         }catch(IOException e){
             e.printStackTrace();
@@ -632,14 +619,21 @@ public class Server extends JFrame{
                     System.out.println(clientSocket.getLocalSocketAddress() + " : " + mess);
                     if(mess.contains("GET")){
                         if(mess.contains("ListShowtime")){
-                            resp = dir + "\\src\\data\\showtime.txt";
+//                            resp = dir + "\\src\\data\\showtime.txt";
+                            resp = dir + "\\showtime.txt";
+
                         }
                         if(mess.contains("ListBooking")){
-                            resp = dir +  "\\src\\data\\booking.txt|";
-                            resp += dir + "\\src\\data\\auditorium.txt";
+//                            resp = dir +  "\\src\\data\\booking.txt|";
+                            resp = dir +  "\\booking.txt|";
+//                            resp += dir + "\\src\\data\\auditorium.txt";
+                            resp += dir + "\\auditorium.txt";
+
                         }
                         if(mess.contains("ListAuditorium")){
-                            resp = dir + "\\src\\data\\auditorium.txt";
+//                            resp = dir + "\\src\\data\\auditorium.txt";
+                            resp = dir + "\\auditorium.txt";
+
                         }
                     }else
                     if(mess.contains("RESERVED")){

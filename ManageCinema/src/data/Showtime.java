@@ -85,20 +85,5 @@ public class Showtime {
         System.out.println("End: " + end);
         System.out.println("Auditorium Id: " + auditoriumId);
     }
-    public static void main(String args[]){
-        Showtime t = new Showtime();
-        String input = "{\n" +
-"WFZK07,\n" +
-"AVATAR The Way of Water 2022,\n" +
-"D:\\1. HCMUS\\JAVA\\Practices\\Manage_Cinema_Web\\ManageCinema\\src\\media\\coverImg_Avatar.png,\n" +
-"7.8,\n" +
-"192,\n" +
-"7:0,\n" +
-"10:12,\n" +
-"RAP01\n" +
-"}";
-        t.readInfo(input);
-        t.printInfo();
-        
-    }
+
 }

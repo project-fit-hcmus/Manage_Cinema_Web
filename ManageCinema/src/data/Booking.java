@@ -92,17 +92,6 @@ public class Booking {
 
         return output;
     }
-    
-    public static void main(String args[]){
-        Booking b = new Booking();
-        
-        String input = "{\n" +
-"RAP01,\n" +
-"XUAT01,\n" +
-"[]\n" +
-"}";
-        b.ReadInfo(input);
-        b.PrintInfo();
-    }
+   
     
 }
