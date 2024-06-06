@@ -1,14 +1,4 @@
 {
-YYPB47,
-AVATAR The Way of Water 2022,
-D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Avatar.png,
-7.8,
-192,
-7:0,
-10:12,
-RAP01,
-}
-{
 LWNZ59,
 Killers Of The Flower Moon 2023,
 D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Killer.png,
@@ -17,4 +7,24 @@ D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Kil
 10:30,
 13:56,
 RAP02,
+}
+{
+OECP45,
+Doraemon,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Spiderman.png,
+9.0,
+100,
+14:30,
+16:10,
+RAP03,
+}
+{
+FJQP69,
+AVATAR The Way of Water 2022,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Avatar.png,
+7.8,
+192,
+05:00,
+08:12,
+RAP01,
 }

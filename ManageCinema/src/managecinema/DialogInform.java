@@ -26,7 +26,7 @@ public class DialogInform extends JDialog{
     private Color btnColor = new Color(223, 33, 68);
     private supportFunc support = new supportFunc();
 
-    public DialogInform(JFrame parent, String title, boolean  model, String username, String userphone, Showtime showtime,int totalPrice, String listChoosen){
+    public DialogInform(JFrame parent, String title, boolean  model, String username, String userphone, Showtime showtime,int totalPrice, String listChoosen, String bookingCode){
         super(parent,title,model);
         // cấu hình các thành phần trong dialog 
         setSize(600,500);
@@ -36,7 +36,7 @@ public class DialogInform extends JDialog{
         //MÃ ĐẶT CHỔ(RANDOM)
         JLabel code = new JLabel();
         code.setFont(filmTitle);
-        code.setText("Mã xuất vé: " + support.generateRandomString(10)); // ham tạo một string random
+        code.setText("Mã xuất vé: " + bookingCode); // ham tạo một string random
         
         //THÔNG TIN TÊN
         JLabel name = new JLabel();

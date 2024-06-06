@@ -47,12 +47,10 @@ public class handleData {
             String line = br.readLine();
             String show = "";
             while(line != null && !line.isEmpty()){
-                System.err.println(line);
                 show += line + '\n';
                 if(line.charAt(0) == '}'){
                     Showtime single = new Showtime();
                     single.readInfo(show);
-                    single.printInfo();
                     output.add(single);
                     show = "";
                 }
@@ -77,6 +75,28 @@ public class handleData {
                     single.ReadInfo(book);
                     output.add(single);
                     book = "";
+                }
+                line = br.readLine();
+            }
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        return output;
+    }
+    
+    public List<DetailBooking> readDetailBooking(String filename){
+        List<DetailBooking> output = new ArrayList<>();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            String line = br.readLine();
+            String detail = "";
+            while(line != null & !line.isEmpty()){
+                detail += line + "\n";
+                if(line.charAt(0) == '}'){
+                    DetailBooking single = new DetailBooking();
+                    single.ReadInfo(detail);
+                    output.add(single);
+                    detail = "";
                 }
                 line = br.readLine();
             }
@@ -146,9 +166,24 @@ public class handleData {
             }
             br.close();
         }catch(Exception e){
-//            e.printStackTrace();
             System.err.println(e.getMessage());
         }
     }
 
+    public void updateDetailBookingFile(String filename, List<DetailBooking> data){
+        try{
+            BufferedWriter br = new BufferedWriter(new FileWriter(filename));
+            for(int i = 0; i < data.size(); ++i){
+                br.write("{\n" + data.get(i).getCode() + ",\n");
+                br.write(data.get(i).getUserName() + ",\n");
+                br.write(data.get(i).getUserPhone() + ",\n");
+                br.write(data.get(i).getPositions() + "\n");
+                br.write("}\n");
+            }
+            br.close();
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
 }

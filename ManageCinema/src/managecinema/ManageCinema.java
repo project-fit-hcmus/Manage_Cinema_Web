@@ -14,7 +14,7 @@ public class ManageCinema {
     private handleData handle = new handleData();
     private String dir = System.getProperty("user.dir"); 
     
-    //data like: RESERVED/RAP02/XUAT02/A3,A4/2/0
+    //data like: RESERVED/RAP02/XUAT02/A3,A4/2/0/Nguyễn Thị Như Ý /0796728944/AFC1028365
     public String solveBooking(String input){
         // bỏ tín hiệu RESERVED
         int pos = input.indexOf("/");
@@ -44,16 +44,45 @@ public class ManageCinema {
 
         
         //ĐỌC SỐ LƯỢNG CHỌN ĐẦU VÀO 
-        int num = Integer.parseInt(input);
+        pos = input.indexOf("/");
+        int num = Integer.parseInt(input.substring(0,pos));
+        input = input.substring(pos+1);
+        
+        // đọc tên 
+        pos = input.indexOf("/");
+        String name = input.substring(0,pos);
+        input = input.substring(pos+1);
+        System.out.println("name: " + name);
+        
+        // đọc số điện thoại
+        pos = input.indexOf("/");
+        String phone = input.substring(0,pos);
+        input = input.substring(pos+1);
+        System.out.println("phone: " + phone);
+        
+        //đọc mã đặt chổ 
+        String code = input;
+        System.out.println("code: " + code );
+        
+         // update detail booking 
+        DetailBooking singleDetail = new DetailBooking();
+        singleDetail.setCode(code);
+        singleDetail.setUserName(name);
+        singleDetail.setUserPhone(phone);
+        singleDetail.setPositions(listPosition);                
 
         if(num != real)
-            return "Vui long chon dung so ghe da chon";
+            return "Vui long chon dung so ghe da chon !!!";
         if(num == 0)
-            return "Vui long chon so luong ghe de tien hanh dat!!!";
+            return "Vui long chon so luong ghe de tien hanh dat !!!";
+        if(name.contains("Nhập tên của bạn"))
+            return "Vui long nhap ten nguoi dat ve !!!"; 
+        if(phone.contains("Nhập số điện thoại của bạn"))
+            return "Vui long nhap so dien thoai lien lac !!!"; 
         
         //KIỂM TRA CÁC CHỔ CHỌN ĐẶT CÓ CÒN TRỐNG
-//        java.util.List<Booking> listBooking = handle.readBookingStatus(dir+"/src/data/booking.txt");
-        java.util.List<Booking> listBooking = handle.readBookingStatus(dir+"/booking.txt");
+        java.util.List<Booking> listBooking = handle.readBookingStatus(dir+"/src/data/booking.txt");
+//        java.util.List<Booking> listBooking = handle.readBookingStatus(dir+"/booking.txt");
 
         Booking single = null;
         int index = 0;
@@ -92,8 +121,13 @@ public class ManageCinema {
         }
         listBooking.get(index).setReserved(newReserved);
         
-//        handle.updateBookingFile(dir + "/src/data/booking.txt", listBooking);
-        handle.updateBookingFile(dir + "/booking.txt", listBooking);
+        List<DetailBooking> listDetail = handle.readDetailBooking(dir + "/src/data/detail.txt");
+       
+        listDetail.add(singleDetail);
+        handle.updateDetailBookingFile(dir+"/src/data/detail.txt", listDetail);
+        
+        handle.updateBookingFile(dir + "/src/data/booking.txt", listBooking);
+//        handle.updateBookingFile(dir + "/booking.txt", listBooking);
 
        return "true";
     }
@@ -128,8 +162,8 @@ public class ManageCinema {
         }
 
         //đọc thông tin rạp các rạp chiếu mặc định
-//        List<auditorium> raw = handle.readAuditoriumFile(dir + "/src/data/auditorium.txt");
-        List<auditorium> raw = handle.readAuditoriumFile(dir + "/auditorium.txt");
+        List<auditorium> raw = handle.readAuditoriumFile(dir + "/src/data/auditorium.txt");
+//        List<auditorium> raw = handle.readAuditoriumFile(dir + "/auditorium.txt");
 
         //tìm thông tin id rạp 
         int i;
@@ -172,9 +206,11 @@ public class ManageCinema {
             raw.add(single);
         }
         
-//        handle.updateAuditoriumFile(dir + "/src/data/auditorium.txt", raw);
-        handle.updateAuditoriumFile(dir + "\\auditorium.txt", raw);
-        System.out.println(dir + "\\auditorium.txt");
+        handle.updateAuditoriumFile(dir + "/src/data/auditorium.txt", raw);
+//        handle.updateAuditoriumFile(dir + "\\auditorium.txt", raw);
+        
+
+System.out.println(dir + "\\auditorium.txt");
 
         return "true";
         
@@ -184,8 +220,10 @@ public class ManageCinema {
     public String setupShowtime(String title, String imgUrl, int duration, double rating, String hour, String AudiId ){
         String id = randomId();
         //đọc danh sách các film hiện có 
-//        List<Showtime> raw = handle.readShowtimeFile(dir + "/src/data/showtime.txt");
-        List<Showtime> raw = handle.readShowtimeFile(dir + "/showtime.txt");
+        List<Showtime> raw = handle.readShowtimeFile(dir + "/src/data/showtime.txt");
+//        List<Showtime> raw = handle.readShowtimeFile(dir + "/showtime.txt");
+        
+        System.out.println("raw size: " + raw.size());
 
         
         // kiểm tra xuất chiếu và rạp chiếu có hợp lệ không
@@ -215,19 +253,19 @@ public class ManageCinema {
         single.setName(title);
 
         raw.add(single);
-//        handle.updateShowtimeFile(dir + "/src/data/showtime.txt", raw);
-        handle.updateShowtimeFile(dir + "/showtime.txt", raw);
+        handle.updateShowtimeFile(dir + "/src/data/showtime.txt", raw);
+//        handle.updateShowtimeFile(dir + "/showtime.txt", raw);
 
-//        List<Booking> listBooking = handle.readBookingStatus(dir + "/src/data/booking.txt");
-        List<Booking> listBooking = handle.readBookingStatus(dir + "/booking.txt");
+        List<Booking> listBooking = handle.readBookingStatus(dir + "/src/data/booking.txt");
+//        List<Booking> listBooking = handle.readBookingStatus(dir + "/booking.txt");
 
         Booking res = new Booking();
         res.setAuditoriumId(AudiId);
         res.setShowtimeId(id);
         res.setReserved(new String[0]);
         listBooking.add(res);
-//        handle.updateBookingFile(dir + "/src/data/booking.txt", listBooking);
-        handle.updateBookingFile(dir + "\\booking.txt", listBooking);
+        handle.updateBookingFile(dir + "/src/data/booking.txt", listBooking);
+//        handle.updateBookingFile(dir + "\\booking.txt", listBooking);
 
         return "true";
     }
@@ -285,11 +323,15 @@ public class ManageCinema {
             hour += (min/60);
             min = min % 60;
         }
-        output += String.valueOf(hour) + ":" + String.valueOf(min);
+        String strHour = "";
+        if(hour < 10) strHour += "0" ;
+        strHour += String.valueOf(hour);
+        String strMin = "";
+        if(min < 10) strMin += "0";
+        strMin += String.valueOf(min);
+        
+        output += strHour + ":" + strMin;
         return output;
     }
-    
-    
- 
 
 }
