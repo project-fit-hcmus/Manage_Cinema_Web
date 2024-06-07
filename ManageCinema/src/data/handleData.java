@@ -2,13 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package managecinema;
+package data;
 
-/**
- *
- * @author User
- */
-
+import managecinema.*;
 import java.util.ArrayList;
 import java.util.*;
 import java.io.*;
@@ -107,7 +103,6 @@ public class handleData {
     }
     
     public void updateAuditoriumFile(String filename, List<auditorium> data){
-        System.err.println("Enter update auditorium file!!!");
         //mở file 
         try{
             BufferedWriter br = new BufferedWriter(new FileWriter(filename));
@@ -143,7 +138,6 @@ public class handleData {
             }
             br.close();
         }catch(Exception e){
-//            e.printStackTrace();
             System.err.println(e.getMessage());
         }
     }
@@ -158,10 +152,7 @@ public class handleData {
                 for(int j = 0; j < data.get(i).getReserved().length; ++j){
                     if(j != 0) br.write(",");
                     br.write(data.get(i).getReserved()[j]);
-                    
                 }
-                  
-                    
                 br.write("]\n}\n");
             }
             br.close();
@@ -177,6 +168,8 @@ public class handleData {
                 br.write("{\n" + data.get(i).getCode() + ",\n");
                 br.write(data.get(i).getUserName() + ",\n");
                 br.write(data.get(i).getUserPhone() + ",\n");
+                br.write(data.get(i).getAuditoriumId() + ",\n");
+                br.write(data.get(i).getShowtimeId() + ",\n");
                 br.write(data.get(i).getPositions() + "\n");
                 br.write("}\n");
             }

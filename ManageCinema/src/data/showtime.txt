@@ -28,3 +28,23 @@ D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_Ava
 08:12,
 RAP01,
 }
+{
+WNTV03,
+ABC,
+D:\1. HCMUS\JAVA\Practices\Manage_Cinema_Web\ManageCinema\src\media\coverImg_WhatIf.png,
+9.8,
+200,
+19:30,
+22:50,
+RAP09,
+}
+{
+KWWI75,
+Hello Kitty,
+UNKNOWN,
+6.7,
+190,
+01:00,
+04:10,
+RAP03,
+}

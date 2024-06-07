@@ -4,6 +4,8 @@
  */
 package managecinema;
 import data.*;
+import data.handleData;
+import client.supportFunc;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.*;
@@ -12,10 +14,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.InetAddress;
 import javax.swing.plaf.basic.BasicButtonUI;
-/**
- *
- * @author User
- */
+
 public class Server extends JFrame{
     //layout setup 
     private JFrame mainFrame, detailFrame;
@@ -26,11 +25,8 @@ public class Server extends JFrame{
     //STYLE 
     Style style = new Style();
     private supportFunc support = new supportFunc();
-    
     private final int CHAIR_WIDTH = 55;
     private final int CHAIR_HEIGHT = 30;
-
-
     
     //NETWORKING SETUP 
     private ServerSocket serverSocket;
@@ -43,17 +39,18 @@ public class Server extends JFrame{
         JPanel output = new JPanel();
         card = new CardLayout();
         output.setLayout(card);
-        output.add("home",createHomeScreen());          // parse input data ????
+        output.add("home",createHomeScreen());        
         output.add("stage", createStageSetting());
         output.add("auditorium", createShowtimeSetting());
         return output;
     }
     
     // tạo màn hình xem danh sách phim đang chiếu
-    public JScrollPane createHomeScreen(){      // input data: java.util.List<Showtime> temp
+    public JScrollPane createHomeScreen(){     
         //prepare data
-        java.util.List<Showtime> raw = handleServer.readShowtimeFile(dir + "//src//data//showtime.txt");
-        System.err.println("size: " + raw.size());
+//        java.util.List<Showtime> raw = handleServer.readShowtimeFile(dir + "//src//data//showtime.txt");
+        java.util.List<Showtime> raw = handleServer.readShowtimeFile(dir + "//showtime.txt");
+
         JPanel content = new JPanel();
         content.setLayout(new FlowLayout(FlowLayout.LEFT));
         content.setBackground(style.bgColor);
@@ -80,8 +77,6 @@ public class Server extends JFrame{
         JPanel output = new JPanel();
         GridBagLayout layout = new GridBagLayout();
         output.setLayout(layout);
-        GridBagConstraints cs = new GridBagConstraints();
-//        output.setLayout(new BoxLayout(output, BoxLayout.Y_AXIS));
         output.setBackground(style.transparentColor);
         output.setPreferredSize(new Dimension(300,420));
         output.setMinimumSize(new Dimension(300,420));
@@ -89,7 +84,11 @@ public class Server extends JFrame{
 
 
         JLabel filmArea = new JLabel();
-        ImageIcon filmImg = setScale(222, 312, new ImageIcon(data.getCoverImg()));
+        ImageIcon filmImg;
+        if(data.getCoverImg().equals("UNKNOWN"))
+            filmImg = setScale(222, 312, new ImageIcon(getClass().getResource("/media/unknown.jpg")));
+        else
+            filmImg= setScale(222, 312, new ImageIcon(data.getCoverImg()));
         filmArea.setIcon(filmImg);
 
         JLabel titleArea = new JLabel();
@@ -99,21 +98,19 @@ public class Server extends JFrame{
 
         JLabel ratingArea = new JLabel();
         ImageIcon ratingImg = setScale(20, 20, new ImageIcon(getClass().getResource("/media/rating.png")));
-//        ratingArea.setForeground(style.White);
         ratingArea.setFont(style.title18);
         ratingArea.setForeground(style.subTextColor);
-        ImageIcon durationImg = setScale(20, 20, new ImageIcon(getClass().getResource("/media/duration.png")));
         ratingArea.setIconTextGap(10);
+        ratingArea.setIcon(ratingImg);
+        ratingArea.setText(data.getRating().toString() + "/10");
 
         JLabel durationArea = new JLabel();
-//        durationArea.setForeground(style.White);
+        ImageIcon durationImg = setScale(20, 20, new ImageIcon(getClass().getResource("/media/duration.png")));
         durationArea.setFont(style.title18);
         durationArea.setForeground(style.subTextColor);
         durationArea.setIconTextGap(10);
         
 
-        ratingArea.setIcon(ratingImg);
-        ratingArea.setText(data.getRating().toString() + "/10");
         durationArea.setIcon(durationImg);
         String duration ;
         if(data.getDuration() < 60){
@@ -122,6 +119,7 @@ public class Server extends JFrame{
             duration = String.valueOf(data.getDuration()/60) + "h " + String.valueOf(data.getDuration()%60) + "m" ;
         }
         durationArea.setText(duration);
+        
         JPanel wholeArea = new JPanel();
         wholeArea.setLayout(new FlowLayout(FlowLayout.CENTER));
         wholeArea.setPreferredSize(style.singlefilmDimen);
@@ -145,7 +143,8 @@ public class Server extends JFrame{
                 showDetailScreen(data);
             }
         });
-
+        
+        GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
         cs.gridx = 0; cs.gridy = 0;
         output.add(filmArea,cs);
@@ -155,12 +154,6 @@ public class Server extends JFrame{
         output.add(titleArea,cs);
         cs.gridy = 3;
         output.add(btnchoose,cs);
-//        output.add(filmArea);
-//        output.add(wholeArea);
-//        output.add(titleArea);
-//        output.add(Box.createRigidArea(new Dimension(0,10)));
-//        output.add(btnchoose);
-//        output.add(Box.createRigidArea(new Dimension(0,40)));
         return output;
     }
     
@@ -170,6 +163,7 @@ public class Server extends JFrame{
         output.setPreferredSize(style.BigPosterDimen);
         output.setMinimumSize(style.BigPosterDimen);
         output.setMaximumSize(style.BigPosterDimen);
+        
         JPanel poster = new JPanel();
         poster.setBackground(style.bgColor);
         GridBagLayout layout = new GridBagLayout();
@@ -177,7 +171,11 @@ public class Server extends JFrame{
         GridBagConstraints cs = new GridBagConstraints();
         
         JLabel avatarArea = new JLabel();
-        ImageIcon mainImg = setScale(320, 523, new ImageIcon(input.getCoverImg()));
+        ImageIcon mainImg;
+        if(input.getCoverImg().equals("UNKNOWN"))
+            mainImg = setScale(320, 523, new ImageIcon(getClass().getResource("/media/unknown.jpg")));
+        else 
+            mainImg = setScale(320, 523, new ImageIcon(input.getCoverImg()));
         avatarArea.setIcon(mainImg);
 
         JLabel ratingArea = new JLabel();
@@ -189,9 +187,7 @@ public class Server extends JFrame{
 
         JLabel durationArea = new JLabel();
         durationArea.setFont(style.title18);
-
         durationArea.setForeground(style.subTextColor);
-
         ImageIcon durationImg = setScale(28, 28, new ImageIcon(getClass().getResource("/media/duration.png")));
         durationArea.setIcon(durationImg);
         String duration;
@@ -201,8 +197,6 @@ public class Server extends JFrame{
             duration = input.getDuration()/60 + "h " + input.getDuration()%60 + "m" ;
         }
         durationArea.setText(duration);
-        JPanel group = new JPanel();
-        
         
         JLabel groupAudi = new JLabel();
         ImageIcon audiIcon = setScale(28,28, new ImageIcon(getClass().getResource("/media/auditorium.png")));
@@ -211,7 +205,7 @@ public class Server extends JFrame{
         groupAudi.setIcon(audiIcon);
         groupAudi.setText(input.getAuditoriumId());
 
-
+        JPanel group = new JPanel();
         group.setLayout(new FlowLayout(FlowLayout.CENTER));
         group.setBackground(style.bgColor);
         group.setPreferredSize(style.bigPoster);
@@ -221,9 +215,6 @@ public class Server extends JFrame{
         group.add(Box.createRigidArea(new Dimension(5, 0)));
         group.add(groupAudi);
         
-        
-        
-
         JLabel title = new JLabel();
         title.setForeground(style.White);
         title.setFont(style.title20);
@@ -239,11 +230,7 @@ public class Server extends JFrame{
         time.setMaximumSize(style.bigPoster);
         time.setBackground(style.btnColor2);
         time.setForeground(style.White);
-        time.setFont(style.title22);
-//        time.setEnabled(false);
-
         time.setFont(style.filmTitle);
-        time.setForeground(style.White);
         
         cs.fill = GridBagConstraints.HORIZONTAL;
         cs.gridx = 0; cs.gridy = 0;
@@ -291,6 +278,8 @@ public class Server extends JFrame{
                 break;
             }
         }
+        
+        
        
         
         for(int i = 0; i < listBooking.size(); ++i){
@@ -339,7 +328,9 @@ public class Server extends JFrame{
         ImageIcon noteImg = setScale(340, 100, new ImageIcon(getClass().getResource("/media/note.png")));
         note.setIcon(noteImg);
 
-        screen.add(Box.createRigidArea(new Dimension(0,250)));
+        //CALCULATE BOX RIGDID 
+        int box = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - row*CHAIR_HEIGHT - 120)/2;
+        screen.add(Box.createRigidArea(new Dimension(0,box)));
         screen.add(listSeat);
         screen.add(note);
              
@@ -351,6 +342,7 @@ public class Server extends JFrame{
         JButton output = new JButton();
         output.setUI(new BasicButtonUI());
         output.setBackground(style.bgColor);
+        
         if (color.equals("red")) {
             ImageIcon chairImg = setScale(15, 15, new ImageIcon(getClass().getResource("/media/VIP_seat.png")));
             output.setIcon(chairImg);
@@ -370,14 +362,19 @@ public class Server extends JFrame{
     
     public void showDetailScreen(Showtime data){
         //prepare data 
-        java.util.List<Booking> listBooking = handleServer.readBookingStatus(dir + "//src//data//booking.txt");
-        java.util.List<auditorium> listAudi = handleServer.readAuditoriumFile(dir + "//src//data/auditorium.txt");
+//        java.util.List<Booking> listBooking = handleServer.readBookingStatus(dir + "//src//data//booking.txt");
+//        java.util.List<auditorium> listAudi = handleServer.readAuditoriumFile(dir + "//src//data/auditorium.txt");
+        
+        java.util.List<Booking> listBooking = handleServer.readBookingStatus(dir + "//booking.txt");
+        java.util.List<auditorium> listAudi = handleServer.readAuditoriumFile(dir + "//auditorium.txt");
+
         detailFrame = new JFrame();
         detailFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         detailFrame.setBackground(style.bgColor);
         detailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         detailFrame.getContentPane().setLayout(new BoxLayout(detailFrame.getContentPane(),BoxLayout.PAGE_AXIS));
         detailFrame.setLayout(new GridBagLayout());
+        
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
         cs.gridx = 0; cs.gridy = 0;
@@ -401,11 +398,8 @@ public class Server extends JFrame{
         title.setForeground(style.White);
         
         JTextField audiCombo = new JTextField("Chọn rạp muốn cấu hình");
-        
-        audiCombo.setBackground(style.bgLighGray);
         audiCombo.setFont(style.title18);
         audiCombo.setForeground(style.lightGray);
-        
         audiCombo.setPreferredSize(style.textFieldDimen);
         audiCombo.setMinimumSize(style.textFieldDimen);
         audiCombo.setMaximumSize(style.textFieldDimen);
@@ -433,7 +427,6 @@ public class Server extends JFrame{
         groupColRow.add(txtCol);
 
         JPanel groupVIP = new JPanel();
-//        groupVIP.setLayout(new BoxLayout(groupVIP, BoxLayout.Y_AXIS));
         groupVIP.setLayout(new GridBagLayout());
         groupVIP.setBackground(style.bgColor);
         groupVIP.setPreferredSize(new Dimension(800,80));
@@ -453,13 +446,12 @@ public class Server extends JFrame{
         VIPContent.setMaximumSize(style.textFieldDimen);
         VIPContent.setMinimumSize(style.textFieldDimen);
         VIPContent.setBackground(style.bgColor);
-        
-        
 
         // TEMP
         JTextField txtVIPFrom = new JTextField("Từ");
         JTextField txtVIPTo = new JTextField("Đến");
         JTextField txtVIPPrice = new JTextField("Giá vé (VNĐ)");
+        
         txtVIPFrom.setFont(style.title18);
         txtVIPFrom.setForeground(style.lightGray);
         txtVIPFrom.setEnabled(false);
@@ -600,7 +592,6 @@ public class Server extends JFrame{
                 long priceVIP =0, priceCouple=0;
                 boolean VIP=false, Couple=false;
                 
-//                Id = audiCombo.getSelectedItem().toString();
                 Id = audiCombo.getText();
                 try{
                     row = Integer.parseInt(txtRow.getText());
@@ -643,10 +634,7 @@ public class Server extends JFrame{
                         return;
                     }
                 }
-                System.err.println("Id: " + Id );
-                System.err.println("row -- col:" + row + ", " +col);
-                System.err.println("VIP: " + VIP + "--" + fromVIP + "---" + toVIP + "---" + priceVIP);
-                System.err.println("Couple: "  + Couple + "---" + fromCouple + "---" + toCouple + "---" + priceCouple);
+                
                 String response = manageServer.setupAuditorium(Id,row,col,VIP,fromVIP,toVIP,priceVIP,Couple,fromCouple,toCouple,priceCouple);
                 if(response.contains("true")){
                     System.out.println("SUCCESS: CAU HINH THONG TIN RAP PHIM " + Id + " THANH CONG");
@@ -662,6 +650,7 @@ public class Server extends JFrame{
                     txtCoupleFrom.setText("Từ");
                     txtCoupleTo.setText("Đến");
                     txtCouplePrice.setText("Giá vé(VNĐ)");
+                    
                     mainFrame.getContentPane().removeAll();
                     ShowHomeScreen();
                     setVisible(true);
@@ -695,6 +684,7 @@ public class Server extends JFrame{
         JPanel output = new JPanel();
         output.setLayout(new BoxLayout(output, BoxLayout.Y_AXIS));
         output.setBackground(style.bgColor);
+        
         JLabel linkImg = new JLabel();
 
         JLabel title = new JLabel();
@@ -765,7 +755,7 @@ public class Server extends JFrame{
             if(i < 10)
                 modelHour.addElement("0" + i + "h");
             else 
-                modelHour.addElement(i + " h");
+                modelHour.addElement(i + "h");
         DefaultComboBoxModel modelMinute = new DefaultComboBoxModel();
         for(int i = 0; i < 60; i = i + 15)
             if(i == 0 )
@@ -785,6 +775,7 @@ public class Server extends JFrame{
         hourCombo.setFont(style.title18);
         hourCombo.setBackground(style.bgLighGray);
         hourCombo.setForeground(style.lightGray);
+        
         JComboBox minuteCombo = new JComboBox(modelMinute);
         minuteCombo.setSelectedItem(0);
         minuteCombo.setFont(style.title18);
@@ -801,8 +792,8 @@ public class Server extends JFrame{
         startTime.add(minuteCombo);
         
         //get list auditorium 
-        java.util.List<auditorium> raw = handleServer.readAuditoriumFile(dir + "/src/data/auditorium.txt");
-//        java.util.List<auditorium> raw = handleServer.readAuditoriumFile(dir + "/auditorium.txt");
+//        java.util.List<auditorium> raw = handleServer.readAuditoriumFile(dir + "/src/data/auditorium.txt");
+        java.util.List<auditorium> raw = handleServer.readAuditoriumFile(dir + "/auditorium.txt");
 
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         for(int i = 0; i < raw.size(); ++i)
@@ -810,7 +801,6 @@ public class Server extends JFrame{
 
         JComboBox audiCombo = new JComboBox(model);
         audiCombo.setSelectedItem(0);
-        audiCombo.setBackground(style.bgLighGray);
         audiCombo.setFont(style.title18);
         audiCombo.setForeground(style.lightGray);
         audiCombo.setPreferredSize(style.textFieldDimen);
@@ -847,21 +837,20 @@ public class Server extends JFrame{
                     JOptionPane.showMessageDialog(null, "Rating phải là một số thực","Notification",JOptionPane.WARNING_MESSAGE);
                     return;
                 }
+                
                 String temp = hourCombo.getSelectedItem().toString();
                 int pos = temp.indexOf("h");
                 String auditoriumID = audiCombo.getSelectedItem().toString();
                 String time = temp.substring(0,pos) + ":" + minuteCombo.getSelectedItem().toString();
                 String result = manageServer.setupShowtime(filmTitle,avatarUrl,duration,rating,time,auditoriumID);
+                
                 if(result.contains("true")){
                      JOptionPane.showMessageDialog(null, "Cấu hình xuất chiếu thành công!!!","Notification",JOptionPane.WARNING_MESSAGE);
                      txtName.setText("Nhập tên film");
                      btnAddImg.setText("Thêm hình ảnh");
                      txtTime.setText("Thời lượng(Phút)");
                      txtRating.setText("Đánh giá");
-                     //failed 
-                     hourCombo.setSelectedItem(0);
-                     minuteCombo.setSelectedItem(0);
-                     audiCombo.setSelectedItem(0);
+                     
                      // setup home screen again
                     mainFrame.getContentPane().removeAll();
                     ShowHomeScreen();
@@ -870,7 +859,6 @@ public class Server extends JFrame{
                              
                 }else{
                     JOptionPane.showMessageDialog(null, result,"Notification",JOptionPane.WARNING_MESSAGE);
-
                 }
             }
         });
@@ -897,6 +885,7 @@ public class Server extends JFrame{
         output.setPreferredSize(style.headerDimen);
         output.setMinimumSize(style.headerDimen);
         output.setMaximumSize(style.headerDimen);
+        
         ImageIcon headerLogo = setScale(158, 88, new ImageIcon(getClass().getResource("/media/logo.png")));
         JLabel headerLogoArea = new JLabel();
         headerLogoArea.setIcon(headerLogo);
@@ -918,6 +907,7 @@ public class Server extends JFrame{
                 card.show(contentPanel, "stage");
             }
         });
+        
         JButton btnAuditorium = new JButton("Cấu hình xuất chiếu");
         btnAuditorium.setBackground(style.btnColor);
         btnAuditorium.setFont(style.title20);
@@ -1027,20 +1017,20 @@ public class Server extends JFrame{
                     System.out.println(clientSocket.getLocalSocketAddress() + " : " + mess);
                     if(mess.contains("GET")){
                         if(mess.contains("ListShowtime")){
-                            resp = dir + "\\src\\data\\showtime.txt";
-//                            resp = dir + "\\showtime.txt";
+//                            resp = dir + "\\src\\data\\showtime.txt";
+                            resp = dir + "\\showtime.txt";
 
                         }
                         if(mess.contains("ListBooking")){
-                            resp = dir +  "\\src\\data\\booking.txt|";
-//                            resp = dir +  "\\booking.txt|";
-                            resp += dir + "\\src\\data\\auditorium.txt";
-//                            resp += dir + "\\auditorium.txt";
+//                            resp = dir +  "\\src\\data\\booking.txt|";
+                            resp = dir +  "\\booking.txt|";
+//                            resp += dir + "\\src\\data\\auditorium.txt";
+                            resp += dir + "\\auditorium.txt";
 
                         }
                         if(mess.contains("ListAuditorium")){
-                            resp = dir + "\\src\\data\\auditorium.txt";
-//                            resp = dir + "\\auditorium.txt";
+//                            resp = dir + "\\src\\data\\auditorium.txt";
+                            resp = dir + "\\auditorium.txt";
 
                         }
                     }else

@@ -2,7 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package managecinema;
+package client;
+import managecinema.*;
 import data.*;
 import java.util.*;
 import javax.swing.JToggleButton;
@@ -14,21 +15,26 @@ import javax.swing.JToggleButton;
  */
 public class supportFunc {
     
-    //checked -- success
     //N: normal V: VIP C: couple 
     public char[][] createKindMatrix(auditorium audi, int row, int col){
         char[][] output = new char[row][col];
         kind vip = audi.getVIP();
         kind couple = audi.getCouple();
-        int startIV = vip.getStart().charAt(0) - 65;
-        int startJV = Integer.parseInt(vip.getStart().substring(1)) - 1;
-        int endIV = vip.getEnd().charAt(0) - 65;
-        int endJV = Integer.parseInt(vip.getEnd().substring(1)) - 1;
-
-        int startIC = couple.getStart().charAt(0) - 65;
-        int startJC = Integer.parseInt(couple.getStart().substring(1)) - 1;
-        int endIC = couple.getEnd().charAt(0) - 65;
-        int endJC = Integer.parseInt(couple.getEnd().substring(1)) - 1;
+        int startIV = -1, startJV = -1, endIV = -1, endJV = -1;
+        int startIC = -1, startJC = -1, endIC = -1, endJC = -1;
+        
+        if(vip.getStart() != null && vip.getEnd() != null && !vip.getStart().isEmpty() && !vip.getEnd().isEmpty()){
+            startIV = vip.getStart().charAt(0) - 65;
+            startJV = Integer.parseInt(vip.getStart().substring(1)) - 1;
+            endIV = vip.getEnd().charAt(0) - 65;
+            endJV = Integer.parseInt(vip.getEnd().substring(1)) - 1;
+        }
+        if(couple.getStart() != null && couple.getEnd() != null && !couple.getStart().isEmpty() && !couple.getEnd().isEmpty()){
+            startIC = couple.getStart().charAt(0) - 65;
+            startJC = Integer.parseInt(couple.getStart().substring(1)) - 1;
+            endIC = couple.getEnd().charAt(0) - 65;
+            endJC = Integer.parseInt(couple.getEnd().substring(1)) - 1;
+        }
         for(int i = 0; i < row; ++i)
             for(int j = 0; j < col; ++j){
                 if(startIV <= i  && i<= endIV && startJV <= j && j <= endJV)
@@ -41,7 +47,6 @@ public class supportFunc {
         return output;
     }
     
-    //checked -- success
     // true: is taken | false: is empty
     public boolean[][] createStatusMatrix(Booking reserved, int row, int col){
 
@@ -90,6 +95,4 @@ public class supportFunc {
         }
         return sb.toString();
     }
-    
-   
 }

@@ -4,13 +4,8 @@
  */
 package data;
 
-/**
- *
- * @author User
- */
-
 //VD: [VIP|D5|H16|60000]
-// chỉ có 2 loại kind là VIP và COUPLE, STANDARD sẽ là phần còn lại của màn hình chưa được dãn nhã VIP hoặc COUPLE
+// chỉ có 2 loại kind là VIP và COUPLE, STANDARD sẽ là phần còn lại của màn hình chưa được dán nhãn VIP hoặc COUPLE
 public class kind {
     private String name; // VIP and COUPLE
     private String start;

@@ -4,10 +4,6 @@
  */
 package data;
 
-/**
- *
- * @author User
- */
 //VD: nội dung của một auditorium như sau
 //{
 //RAP01,
@@ -54,7 +50,6 @@ public class auditorium {
         System.out.println("Column: " + col);
         vip.PrintInfo();
         couple.PrintInfo();
-
     }
     
     public String getID(){return this.id;}
@@ -68,6 +63,4 @@ public class auditorium {
     public void setCol(int value){this.col = value;}
     public void setVIP(kind value){this.vip = value;}
     public void setCouple(kind value){this.couple = value;}
-    
-
 }

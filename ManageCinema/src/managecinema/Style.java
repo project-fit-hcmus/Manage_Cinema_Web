@@ -23,10 +23,7 @@ public class Style {
             (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() + 200);
     public Dimension BigPosterDimen = new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 1.2) / 5,
             (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() + 200);
-
-    
     public Dimension bigPoster = new Dimension(335, 40);
-
     public Dimension bookingElement = new Dimension(450, 40);
 
     // COLOR

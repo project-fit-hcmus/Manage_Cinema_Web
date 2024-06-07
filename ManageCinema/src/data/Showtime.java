@@ -4,12 +4,6 @@
  */
 package data;
 
-/**
- *
- * @author User
- */
-
-//TEST SUCCESS
 public class Showtime {
     private String id;
     private String name;
@@ -57,7 +51,6 @@ public class Showtime {
         rating = Double.parseDouble(input.substring(0, pos));
         input = input.substring(pos + 2);
 
-
         pos = input.indexOf(",");
         duration = Integer.parseInt(input.substring(0, pos));
         input = input.substring(pos + 2);
@@ -85,5 +78,4 @@ public class Showtime {
         System.out.println("End: " + end);
         System.out.println("Auditorium Id: " + auditoriumId);
     }
-
 }

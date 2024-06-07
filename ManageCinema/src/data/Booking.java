@@ -4,10 +4,6 @@
  */
 package data;
 
-/**
- *
- * @author User
- */
 
 //example data:
 //{
@@ -33,6 +29,7 @@ public class Booking {
     
     public String[] getReserved(){return this.reserved;}
     public void setReserved(String[] value){this.reserved = value;}
+    
     public void ReadInfo(String input){
         
         int pos = input.indexOf(',');
@@ -47,11 +44,8 @@ public class Booking {
         input = input.substring(0,pos);
         
         reserved = readMatrix(input);
-        
-        
-        
-        
     }
+    
     public void PrintInfo(){
         System.out.println("Auditorium: " + auditoriumId + "\n");
         System.out.println("Showtime: " + showtimeId + "\n");
@@ -88,10 +82,6 @@ public class Booking {
             output[i] = input.substring(0,pos);
                     
         }
-        
-
         return output;
     }
-   
-    
 }
